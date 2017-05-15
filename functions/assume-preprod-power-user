@@ -1,0 +1,5 @@
+aws sts assume-role --role-arn  arn:aws:iam::344541377886:role/ident-smartthings_preprod-power_user --role-session-name "Terraform" > assume-role-output.txt
+export AWS_ACCESS_KEY_ID=$(    cat assume-role-output.txt | jq -r '.Credentials.AccessKeyId')
+export AWS_SECRET_ACCESS_KEY=$(cat assume-role-output.txt | jq -r '.Credentials.SecretAccessKey')
+export AWS_SESSION_TOKEN=$(    cat assume-role-output.txt | jq -r '.Credentials.SessionToken')
+rm assume-role-output.txt

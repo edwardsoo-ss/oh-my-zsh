@@ -1,0 +1,9 @@
+#!/bin/bash
+app="$1"
+stack="$2"
+artifact="$3"
+for i in `aws ec2 --profile st-preprod describe-instances --filters "Name=tag:app,Values=$app" "Name=tag:stack,Values=$stack*" "Name=instance-state-name,Values=running" | grep -i instanceid  | awk '{ print $2 }' | cut -d',' -f1| sed -e 's/"//g'`
+do
+    ip=`aws ec2 --profile st-preprod describe-instances --instance-ids $i | grep -i PrivateIpAddress | awk '{ print $2 }' | head -1 | cut -d"," -f1 | sed -e 's/"//g'`
+    scp $3 "$ip:~" &
+done;

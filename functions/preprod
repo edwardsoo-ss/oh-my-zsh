@@ -1,0 +1,1 @@
+aws ec2 --profile st-preprod describe-instances --filters "Name=tag:app,Values=$1" "Name=tag:stack,Values=$2*" "Name=instance-state-name,Values=running"
